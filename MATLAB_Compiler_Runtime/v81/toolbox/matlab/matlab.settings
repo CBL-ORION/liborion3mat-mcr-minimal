@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings name="matlab" visible="false" xmlns="urn:mathworks.matlab.settings" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> 
+	<key name="UserPath" visible="false">
+		<string>
+			<runtimedefault type="C" packagename="services" functionname="getDefaultUserFolder"/>
+		</string>
+	</key>
+	<key name="DeleteFilesPermanently" visible="false">
+		<bool>
+			<value>1</value>
+		</bool>
+	</key>
+  <settings name="class" visible="false">
+    <key name="UseFullNameInDisplayHeader" visible="false">
+       <bool>
+       	<value>0</value>
+       </bool>
+    </key>
+  </settings>
+  <additionalpath>settings/desktop.settings</additionalpath>
+ </settings>

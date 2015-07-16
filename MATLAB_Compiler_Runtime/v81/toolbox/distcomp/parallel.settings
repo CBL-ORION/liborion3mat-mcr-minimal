@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Copyright 2011 The MathWorks, Inc. -->
+<settings name="parallel" visible="false" xmlns="urn:mathworks.matlab.settings" xsi:schemaLocation="urn:mathworks.matlab.settings settings.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <settings name="client" visible="false">
+        <key name="DefaultProfile" visible="false">
+            <string>
+                <value>local</value>
+            </string>
+        </key>
+        <key name="ConfigurationsLastUpgradeTime" visible="false">
+            <!-- Note that the factory value of ConfigurationsLastUpgradeTime is never used, but
+            we must have a value for it in the factory settings file in order to ensure that the
+            key always exists. -->
+            <double>
+                <value>0</value>
+            </double>
+        </key>
+    </settings>
+    <settings name="profiles" visible="false">
+        <settings name="local" visible="true">
+            <key name="Description" visible="true">
+                <string>
+                    <value>The local cluster</value>
+                </string>
+            </key>
+            <key name="SchedulerComponent" visible="true">
+                <string>
+                    <value>localSchedulerComponent</value>
+                </string>
+            </key>
+        </settings>
+    </settings>
+    <settings name="internal" visible="false">
+        <settings name="profilesWithReadOnlySched" visible="false">
+            <key name="local" visible="true">
+                <bool>
+                    <value>1</value>
+                </bool>
+            </key>
+        </settings>
+    </settings>
+    <settings name="projectcomponents" visible="false">
+    </settings>
+    <settings name="schedulercomponents" visible="false">
+        <settings name="Generic" visible="true">
+        </settings>
+        <settings name="HPCServer" visible="true">
+        </settings>
+        <settings name="LSF" visible="true">
+        </settings>
+        <settings name="Local" visible="true">
+            <settings name="localSchedulerComponent" visible="true">
+                <!-- TODO:later Remove this nasty hack.
+                Add a dummy key to the local scheduler component to ensure it 
+                that the localSchedulerComponent can't be removed.  It looks like nodes 
+                in the factory file that don't have keys under them can be removed.
+                This dummy key will not affect the correct behavior of Profiles.-->
+                <key name="DummyKey" visible="true">
+                    <string>
+                        <value>dummy</value>
+                    </string>
+                </key>
+            </settings>
+        </settings>
+        <settings name="MJS" visible="true">
+        </settings>
+        <settings name="MJSComputeCloud" visible="true">
+        </settings>
+        <settings name="Mpiexec" visible="true">
+        </settings>
+        <settings name="PBSPro" visible="true">
+        </settings>
+        <settings name="Torque" visible="true">
+        </settings>
+    </settings>
+</settings>

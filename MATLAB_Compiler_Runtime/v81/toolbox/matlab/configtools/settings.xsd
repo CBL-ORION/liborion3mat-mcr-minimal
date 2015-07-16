@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 sp1 (x64) (http://www.altova.com) by Yun Zhang (The MathWorks) -->
+<xs:schema xmlns="urn:mathworks.matlab.settings" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:mathworks.matlab.settings" elementFormDefault="qualified">
+	<xs:element name="settings">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SettingsType">
+					<xs:sequence minOccurs="0">
+						<xs:element name="additionalpath" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>speicfies the additional paths to other Settings files belong to the given product</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="SettingsType">
+		<xs:annotation>
+			<xs:documentation>defines a settings node</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="validationfunc" type="ValidationFuncType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>validation function that can be called on value changes.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="key" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>key/value pairs</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="validationfunc" type="ValidationFuncType" minOccurs="0"/>
+						<xs:choice>
+							<xs:annotation>
+								<xs:documentation>each key can have a value of any of these supported type</xs:documentation>
+							</xs:annotation>
+							<xs:element name="int8" type="Int8Type"/>
+							<xs:element name="uint8" type="UInt8Type"/>
+							<xs:element name="int16" type="Int16Type"/>
+							<xs:element name="uint16" type="UInt16Type"/>
+							<xs:element name="int32" type="Int32Type"/>
+							<xs:element name="uint32" type="UInt32Type"/>
+							<xs:element name="int64" type="Int64Type"/>
+							<xs:element name="uint64" type="UInt64Type"/>
+							<xs:element name="float" type="FloatType"/>
+							<xs:element name="double" type="DoubleType"/>
+							<xs:element name="bool" type="BooleanType"/>
+							<xs:element name="string" type="StringType"/>
+						</xs:choice>
+					</xs:sequence>
+					<xs:attribute name="name" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>name of the key</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="visible" type="xs:boolean" default="false">
+						<xs:annotation>
+							<xs:documentation>specify visibility of this key on display</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="settings" type="SettingsType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>subnodes</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>name of the node</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="visible" type="xs:boolean" default="false">
+			<xs:annotation>
+				<xs:documentation>specify visibility of this node on display</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="version" type="xs:unsignedInt">
+			<xs:annotation>
+				<xs:documentation>Specify the factory Settings file version for a product. The Settings API will only write out the version atrribute for the product node</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="ValidationLangType">
+		<xs:annotation>
+			<xs:documentation>this defines the type of validation functions</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="ValidationFuncType">
+		<xs:annotation>
+			<xs:documentation>defines validaition function</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="type" type="xs:anyURI" use="required">
+			<xs:annotation>
+				<xs:documentation>which language the validation function is defined</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="packagename" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>the package/dll  contains the validation function</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="functionname" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>name fo the validation function</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ValueGeneratorFuncType">
+		<xs:annotation>
+			<xs:documentation>defines a function to get value for a key at run time</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="type" type="ValidationLangType" use="required">
+			<xs:annotation>
+				<xs:documentation>which language the validation function is defined</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="packagename" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>the package/dll  contains the validation function</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="functionname" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>name fo the validation function</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Int8Type">
+		<xs:annotation>
+			<xs:documentation>defines an int8with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:byte" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:byte" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:byte" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key. </xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:byte" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be int</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>Minimum size of an int8 array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>Maximum size of an int8 array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="UInt8Type">
+		<xs:annotation>
+			<xs:documentation>defines an uint8 type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:unsignedByte" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:unsignedByte" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:unsignedByte" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key. </xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:unsignedByte" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be int</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of a uint8 array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of a uint8 array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Int16Type">
+		<xs:annotation>
+			<xs:documentation>defines an int16 type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:short" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:short" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:short" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key. </xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:short" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be int</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of an int16 array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of an int16 array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="UInt16Type">
+		<xs:annotation>
+			<xs:documentation>defines an uint16 type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:unsignedShort" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:unsignedShort" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:unsignedShort" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key. </xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:unsignedShort" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be int</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of a uint16 array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of a uint16 array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Int32Type">
+		<xs:annotation>
+			<xs:documentation>defines an int32 type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:int" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:int" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:int" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key. </xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:int" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be int</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of an int32 array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of an int32 array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="UInt32Type">
+		<xs:annotation>
+			<xs:documentation>defines an uint32 type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:unsignedInt" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:unsignedInt" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:unsignedInt" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key. </xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:unsignedInt" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be int</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of a uint32 array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of a uint32 array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Int64Type">
+		<xs:annotation>
+			<xs:documentation>defines an int64 type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:long" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:long" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:long" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key. </xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:long" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be int</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of an int64 array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of an int64 array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="UInt64Type">
+		<xs:annotation>
+			<xs:documentation>defines an uint64 type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:unsignedLong" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:unsignedLong" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum integer value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:unsignedLong" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key. </xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:unsignedLong" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be int</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of a uint64 array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of a uint64 array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="FloatType">
+		<xs:annotation>
+			<xs:documentation>defines a float type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:float" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum double value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:float" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum double value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:float" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:string" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be double</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of a float array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of a float array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="DoubleType">
+		<xs:annotation>
+			<xs:documentation>defines a double type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:double" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum double value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:double" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum double value this key can have</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:double" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:string" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be double</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of a double array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of a double array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="BooleanType">
+		<xs:annotation>
+			<xs:documentation>defines a boolean type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:boolean" nillable="false" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be boolean</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of a bool array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of a bool array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="StringType">
+		<xs:annotation>
+			<xs:documentation>defines a string type with its corresponding meta data. This data type could be scalar or array.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional data to describe the key. These values can used to generate default validation function. If there is validationFunc defined for this key, there won't be default validationFunc generated from metaData. </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="min" type="xs:unsignedLong" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>minimum length of string</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="max" type="xs:unsignedLong" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>maximum length of string can be save as value of this key</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="choices" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>value of the key has to be one of the choices listed here</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>define either a value or a function that can generate the default value for this key.</xs:documentation>
+				</xs:annotation>
+				<xs:element name="value" type="xs:string" nillable="true" maxOccurs="unbounded"/>
+				<xs:element name="runtimedefault" type="ValueGeneratorFuncType">
+					<xs:annotation>
+						<xs:documentation>Return type of the runtimeDefault has to be string</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="minArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>minimum size of a string array. Default value is 1</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxArraySize" type="xs:unsignedLong" default="1">
+			<xs:annotation>
+				<xs:documentation>maximum size of a string array. Default to 1. When minArraySize and maxArraySize are all set to 1, it indicates a scalar. When maxArraySize iis 0, it indicates a no-upper bound array. The minArraySize will still be enforced.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>
