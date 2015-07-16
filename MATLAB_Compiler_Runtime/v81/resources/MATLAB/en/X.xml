@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- Copyright 2011-2012 The MathWorks, Inc. -->
+<rsccat version="1.0" locale="en_US" product="MATLAB">
+  <message>
+    <entry key="sigpipe">Internal error: Sigpipe caught</entry>
+    <entry key="BadAlloc">X Server failed to allocate enough memory for some previous MATLAB graphics or window request</entry>
+    <entry key="XError">Dumping Core for previous X error... Bye</entry>
+    <entry key="XDisconnect">\nConnection to the X11 Display Server ({0}) has been lost.\nNo more graphics windows can no longer be displayed in this session.\nGraphics Objects can still be printed, and all commands should still work.\nWe recommend that you try to save your current session and exit.</entry>
+    <entry key="MissingXKeysymDB">The file /usr/lib/X11/XKeysymDB is either missing or incomplete. This will not affect MATLAB, but MathWorks recommends that you fix the problem if using Simulink.  In order to ensure that Simulink works as shown in the manual, please reinstall the file XKeysymDB provided on the MATLAB release media.  Please refer to the installation instructions shipped with this release.</entry>
+    <entry key="AppDefaultsNotFound">latest version of {0} app-defaults file not found.\nContact your system administrator to have this file installed.</entry>
+    <entry key="NoDisplay">Unable to open display ''{0}''.  You will not be able to display graphics on the screen.</entry>
+  <!--Resource entries for src/uix-->
+    <entry key="FailedToAllocateMemory">X Server failed to allocate enough memory for some previous MATLAB graphics or window request</entry>
+    <entry key="UnsupportedLocale">X does not support locale {0}</entry>
+  </message>
+</rsccat>

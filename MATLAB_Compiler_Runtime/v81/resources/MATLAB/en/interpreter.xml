@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rsccat version="1.0" locale="en_US" product="MATLAB">
+  <message>
+    <entry key="IncorrectAssignment">Overload dot name assignment screwup.</entry>
+    <entry key="IncorrectReference">Overload dot name reference screwup.</entry>
+    <entry key="ErrorUsingFname">Error using {0}\n</entry>
+  </message>
+</rsccat>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<rsccat version="1.0" locale="en_US" product="MCR">
+  <message>
+    <entry key="NoDbClear">The DBCLEAR function cannot be used in compiled applications.</entry>
+    <entry key="NoDbCont">The DBCONT function cannot be used in compiled applications.</entry>
+    <entry key="NoDbDown">The DBDOWN function cannot be used in compiled applications.</entry>
+    <entry key="NoDbUp">The DBUP function cannot be used in compiled applications.</entry>
+    <entry key="NoDbQuit">The DBQUIT function cannot be used in compiled applications.</entry>
+    <entry key="NoDbStep">The DBSTEP function cannot be used in compiled applications.</entry>
+    <entry key="NoDbStop">The DBSTOP function cannot be used in compiled applications.</entry>
+    <entry key="NoDbType">The DBTYPE function cannot be used in compiled applications.</entry>
+  </message>
+</rsccat>

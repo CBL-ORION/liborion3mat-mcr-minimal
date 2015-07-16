@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!-- Copyright 2010-2012 The MathWorks, Inc. -->
+<rsccat version="1.0" locale="en_US" product="MATLAB">
+  <message>
+    <entry key="gettingFilePos">Internal error getting file position.</entry>
+    <entry key="readingFile">Internal error reading from file.</entry>
+    <entry key="resettingFilePos">Internal error resetting file position.</entry>
+    <entry key="standardStream">TEXTSCAN cannot read from stdin, stdout, or stderr.</entry>
+    <entry key="NotAnIntegerValue">{0} must be integer-valued.</entry>
+    <entry key="NotAString">{0} must be a string.</entry>
+    <entry key="IncorrectEscapeConstant">{0} has incorrect \\ constant.</entry>
+    <entry key="LookforAndGetHeaderLines">Headerlines must be a positive integer.</entry>
+    <entry key="LookforAndGetHeaderColumns">Headercolumns must be a positive integer.</entry>
+    <entry key="SmallBuffer">Buffer too small, using bufsize = 100 instead.\n</entry>
+    <entry key="NotNumericScalar">{0} must be a numeric scalar.</entry>
+    <entry key="NumericInTreatAsEmpty">TreatAsEmpty strings cannot be numeric.</entry>
+    <entry key="NonStringCellsInTreatAsEmpty">Cell arguments to TreatAsEmpty must contain non-numeric strings.</entry>
+    <entry key="NonStringsInTreatAsEmpty">Arguments to TreatAsEmpty must be strings or cells of strings.</entry>
+    <entry key="LookforAndGetEndofline">End of line character must be no more than a single character or \\r\\n</entry>
+    <entry key="MoreThanTwoCellsInCommentStyle">Comment Styles must not consist of more than two cells</entry>
+    <entry key="NonStringCellsInCommentStyle">Cell arguments to CommentStyle must contain strings.</entry>
+    <entry key="NonStringsInCommentStyle">Arguments to CommentStyle must be strings or cells of strings.</entry>
+    <entry key="DelimiterSpaceConflict">Characters can not be used in both whitespace and delimiter lists.\nRemoving delimiter chars from whitespace list.\n</entry>
+    <entry key="SkipComments">Unterminated comment found.  Remainder of file ignored.</entry>
+    <entry key="BuildFormatString">Number of HeaderColumns is greater than number of columns in file.</entry>
+    <entry key="UnableToReadFile">Unable to read any data from the file, textscan may not have read access.</entry>
+    <entry key="BufferOverflow">Buffer overflow (bufsize = {0,number,integer}) while reading {1} from file (row {2} u, field {3} u).  Use 'bufsize' option. See HELP TEXTSCAN.  {4}</entry>
+    <entry key="handleErrorAndShowInfo">Mismatch between file and format string.\nTrouble reading {0} from file (row {1}u, field {2}u) ==> {3}</entry>
+    <entry key="readNextInputField">Attempt to read unknown format from file.</entry>
+    <entry key="SecondInput">Second input must be empty or a format string.</entry>
+    <entry key="UnpairedParamsValues">Param/value pairs must come in pairs.</entry>
+    <entry key="UnknownOption">Unknown option ''{0}''.</entry>
+    <entry key="BadFormatString">Badly formed format string.</entry>
+    <entry key="NoInput">First input can not be empty.</entry>
+    <entry key="WrongInputType">First input must be of type double or string.</entry>
+  <entry key="NotAStringOrCellOfStrings">{0} must be a string or cell array of strings.</entry>
+    <entry key="EmptyCellArrayInvalid">{0} cannot be an empty cell array.</entry>
+  </message>
+</rsccat>
+                    
