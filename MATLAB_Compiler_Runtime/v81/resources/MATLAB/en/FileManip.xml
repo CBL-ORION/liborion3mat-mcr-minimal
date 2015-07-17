@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<rsccat version="1.0" locale="en_US" product="MATLAB">
+  <message>
+    <entry key="IllegalName">All arguments must be one-dimensional strings.</entry>
+    <entry key="DirectoryExists">Directory already exists.</entry>
+    <entry key="UnknownError">Unknown error occurred.</entry>
+    <entry key="GetLastErrorFailed">{0} failed: GetLastError returned {1,number,integer}.\n</entry>
+    <entry key="OSError">{0}</entry>
+    <entry key="CouldNotRemove">{0} could not be removed.\n</entry>
+    <entry key="NotADirectory">{0} is not a directory.\n</entry>
+    <entry key="ReadOnly">{0} is read-only or contains read-only objects.\n</entry>
+  </message>
+</rsccat> 
